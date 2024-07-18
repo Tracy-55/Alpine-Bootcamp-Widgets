@@ -1,4 +1,4 @@
-// enoughAirtime.js
+// making use of bootcamp values
 function enoughAirtime(usage, airtimeAvailable) {
     const costs = {
         call: 2.75,
