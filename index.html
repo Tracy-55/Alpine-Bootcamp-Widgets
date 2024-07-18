@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpineJS Bootcamp Widgets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.2.1/dist/cdn.min.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('Public/pexels-pixabay-247671.jpg');
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-image: url('Public/pexels-fwstudio-33348-129731.jpg');
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .widget {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .widget:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .widget h2 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .widget input,
+        .widget select,
+        .widget button {
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .widget input:focus,
+        .widget select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .widget button {
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+        }
+
+        .widget button:hover {
+            background-color: #2980b9;
+        }
+
+        .widget p {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-bold mb-6 text-center text-indigo-700">AlpineJS Bootcamp Widgets</h1>
+
+        <div class="widget bg-blue-100" x-data="greetWidget()">
+            <h2 class="text-xl font-semibold mb-2">Greet Function</h2>
+            <input type="text" x-model="name" placeholder="Enter your name" class="border p-2 mb-2">
+            <select x-model="language" class="border p-2 mb-2">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+            </select>
+            <button @click="greet()" class="bg-blue-500 text-white p-2 w-full mt-2">Greet</button>
+            <p x-text="greeting" class="mt-2"></p>
+        </div>
+
+        <div class="widget bg-green-100" x-data="transportFeeWidget()">
+            <h2 class="text-xl font-semibold mb-2">Transport Fee Function</h2>
+            <div class="mb-2">
+                <input type="radio" id="morning" value="morning" x-model="shift">
+                <label for="morning">Morning</label>
+            </div>
+            <div class="mb-2">
+                <input type="radio" id="afternoon" value="afternoon" x-model="shift">
+                <label for="afternoon">Afternoon</label>
+            </div>
+            <div class="mb-2">
+                <input type="radio" id="nightshift" value="nightshift" x-model="shift">
+                <label for="nightshift">Nightshift</label>
+            </div>
+            <button @click="calculateFee()" class="bg-green-500 text-white p-2 w-full mt-2">Calculate Fee</button>
+            <p x-text="fee" class="mt-2"></p>
+        </div>
+
+        
+        <div class="widget bg-yellow-100" x-data="totalPhoneBillWidget()">
+            <h2 class="text-xl font-semibold mb-2">Total Phone Bill Function</h2>
+            <input type="text" x-model="phoneString" placeholder="Enter phone call and SMS string"
+                class="border p-2 mb-2">
+            <button @click="calculateBill()" class="bg-yellow-500 text-white p-2 w-full mt-2">Calculate Bill</button>
+            <p x-text="totalBill" class="mt-2"></p>
+        </div>
+
+
+        <div class="widget bg-red-100" x-data="enoughAirtimeWidget()">
+            <h2 class="text-xl font-semibold mb-2">Enough Airtime Function</h2>
+            <input type="text" x-model="usage" placeholder="Enter usage string" class="border p-2 mb-2">
+            <input type="number" x-model="airtimeAvailable" placeholder="Enter airtime available"
+                class="border p-2 mb-2">
+            <button @click="calculateAirtime()" class="bg-red-500 text-white p-2 w-full mt-2">Calculate Airtime</button>
+            <p x-text="airtimeLeft" class="mt-2"></p>
+        </div>
+
+        <script src="greet.js"></script>
+        <script src="transportFee.js"></script>
+        <script src="totalPhoneBill.js"></script>
+        <script src="enoughAirtime.js"></script>
+
+        <script>
+            function greetWidget() {
+                return {
+                    name: '',
+                    language: 'en',
+                    greeting: '',
+                    greet() {
+                        switch (this.language) {
+                            case 'es':
+                                this.greeting = `Hola, ${this.name}!`;
+                                break;
+                            case 'fr':
+                                this.greeting = `Bonjour, ${this.name}!`;
+                                break;
+                            default:
+                                this.greeting = `Hello, ${this.name}!`;
+                        }
+                    }
+                }
+            }
+
+            function transportFeeWidget() {
+                return {
+                    shift: 'morning',
+                    fee: '',
+                    calculateFee() {
+                        switch (this.shift) {
+                            case 'morning':
+                                this.fee = 'R20';
+                                break;
+                            case 'afternoon':
+                                this.fee = 'R10';
+                                break;
+                            case 'nightshift':
+                                this.fee = 'free';
+                                break;
+                        }
+                    }
+                }
+            }
+
+            function totalPhoneBillWidget() {
+                return {
+                    phoneString: '',
+                    totalBill: '',
+                    calculateBill() {
+                        
+                        this.totalBill = `Total bill for ${this.phoneString}`;
+                    }
+                }
+            }
+
+            function enoughAirtimeWidget() {
+                return {
+                    usage: '',
+                    airtimeAvailable: 0,
+                    airtimeLeft: '',
+                    calculateAirtime() {
+                        
+                        this.airtimeLeft = `Airtime left after ${this.usage} usage is ${this.airtimeAvailable}`;
+                    }
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>
